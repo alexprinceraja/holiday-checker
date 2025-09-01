@@ -48,8 +48,8 @@ class HolidayIntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Holiday[] holidays = response.getBody();
-        //assertNotNull(holidays);
-       // assertEquals(1, holidays.length);
-        //assertEquals("New Year", holidays[0].getName());
+        assertNotNull(holidays);
+        assertEquals(3, holidays.length);
+      //  assertEquals("New Year", holidays[0].getName());
     }
 }
