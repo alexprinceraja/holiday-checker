@@ -54,23 +54,82 @@ All endpoints are available via Swagger UI:
    ##### Parameters:
     - year (int) - e.g., 2024
     - country (string) - ISO 3166-1 alpha-2 country code (e.g., US, GB)
-      
+   ##### Example:
+      GET /holidays/last3?year=2024&country=US
+   ##### Response:
+      ```json
+            [
+              { "date": "2024-12-25", "localName": "Christmas Day", "name": "Christmas Day", "countryCode": "US" },
+              { "date": "2024-07-04", "localName": "Independence Day", "name": "Independence Day", "countryCode": "US" }
+            ]
+        
+ 
 </details> <details> <summary>Count non-weekend holidays for one or more countries</summary> 
   
     GET /holidays/non-weekend?year={year}&countries={country1},{country2},...
-  
+  ##### Example:
+      GET /holidays/non-weekend?year=2024&countries=US,GB
+  ##### Response:
+       ```json
+          {
+          "US": {
+            "count": 8,
+            "holidays": [
+              { "date": "2024-12-25", "localName": "Christmas Day", "name": "Christmas Day", "countryCode": "US" },
+              { "date": "2024-07-04", "localName": "Independence Day", "name": "Independence Day", "countryCode": "US" }
+            ]
+          },
+          "GB": {
+            "count": 7,
+            "holidays": [
+              { "date": "2024-12-25", "localName": "Christmas Day", "name": "Christmas Day", "countryCode": "GB" }
+            ]
+          }
+        }
+    ```      
+    - Holidays are sorted descending by date.
+    - Countries are sorted by non-weekend holiday count descending.
+    
 </details> <details> <summary>Get shared holidays between two countries</summary>
   
     GET /holidays/shared?year={year}&country1={country1}&country2={country2}
-  
+  ##### Example:
+      GET /holidays/shared?year=2024&country1=US&country2=GB   
+  ##### Response:
+      ```json
+      [
+        { "date": "2024-01-01", "localName": "New Year's Day", "name": "New Year's Day", "countryCode": "US" }
+      ]
+      
 </details> <details> <summary>Custom error handling** via `@RestControllerAdvice`</summary>
   
     The application uses a global exception handler with structured error responses:
-  
+  ##### Response:
+    ```json
+    {
+      "timestamp": "2025-09-01T12:34:56.789",
+      "status": 404,
+      "error": "External API Error",
+      "message": "Not Found",
+      "path": "uri=/holidays/last3?year=2024&country=XX"
+    }
+    ```
+    
+    - Handles WebClientResponseException from the external API.
+    - Handles RuntimeException and IllegalArgumentException.
+    - Centralized in @RestControllerAdvice for consistent JSON output.
+    
 </details> <details> <summary>Unit tests and integration tests** using JUnit, Mockito, and MockWebServer`</summary> 
   
-    Run all unit and integration tests:
-  
+  ##### Run all unit and integration tests:
+    mvn test
+  ##### Unit tests:
+    - HolidayProcessorTest
+    - HolidayServiceTest (mock WebClient)
+    - HolidayControllerTest (mock service)
+  ##### Integration tests:
+    - @SpringBootTest
+    - Uses MockWebServer to simulate external API responses
 </details>
 
 ### Clone the repository
