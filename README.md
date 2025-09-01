@@ -135,6 +135,6 @@ All endpoints are available via Swagger UI:
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/holiday-checker.git
+git clone https://github.com/alexprinceraja/holiday-checker.git
 cd holiday-checker
 
