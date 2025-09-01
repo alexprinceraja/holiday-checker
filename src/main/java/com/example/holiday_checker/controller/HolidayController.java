@@ -6,11 +6,15 @@ import com.example.holiday_checker.service.HolidayService;
 import com.example.holiday_checker.dto.NonWeekendHolidayResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.validation.annotation.Validated;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import java.util.*;
 
 @RestController
 @RequestMapping("/holidays")
+@Validated // IMPORTANT: enables validation for @RequestParam
 public class HolidayController {
 
     private final HolidayService service;
@@ -24,8 +28,8 @@ public class HolidayController {
     @GetMapping("/last3")
     @Operation(summary = "Get last 3 celebrated holidays for a country")
     public List<Holiday> getLast3(
-            @RequestParam int year,
-            @RequestParam String country) {
+            @RequestParam @Positive(message = "Year must be a positive number") int year,
+            @RequestParam @NotBlank @Pattern(regexp = "^[A-Z]{2}$", message = "Country must be a valid ISO 2-letter code") String country) {
         List<Holiday> holidays = service.getHolidays(year, country);
         return processor.getLast3Holidays(holidays);
     }
@@ -33,7 +37,7 @@ public class HolidayController {
     @GetMapping("/non-weekend")
     @Operation(summary = "Count holidays not falling on weekends for given countries, including dates")
     public Map<String, NonWeekendHolidayResponse> countNonWeekend(
-            @RequestParam int year,
+            @RequestParam @Positive(message = "Year must be a positive number") int year,
             @RequestParam List<String> countries) {
 
         Map<String, List<Holiday>> map = new HashMap<>();
