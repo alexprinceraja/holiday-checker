@@ -1,6 +1,7 @@
 package com.example.holiday_checker.service;
 
 import com.example.holiday_checker.model.Holiday;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -16,6 +17,7 @@ public class HolidayService {
         this.webClient = webClient;
     }
 
+    @Cacheable(value = "holidays", key = "#year + '-' + #country")
     public List<Holiday> getHolidays(int year, String countryCode) {
         try {
             return webClient.get()
