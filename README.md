@@ -12,8 +12,10 @@ The project uses **WebClient**, **Spring Boot**, **Swagger UI**, and includes **
 2. **Count non-weekend holidays for one or more countries**
 3. **Get shared holidays between two countries**
 4. **Custom error handling** via `@RestControllerAdvice`
-5. **Swagger UI** for API documentation
-6. **Unit tests and integration tests** using JUnit, Mockito, and MockWebServer
+5. **Caching with Redis** for faster repeated queries
+6. **Swagger UI** for API documentation
+7. **Unit tests and integration tests** using JUnit, Mockito, and MockWebServer
+8. **Docker support** for containerized deployment
 
 ---
 
@@ -22,9 +24,11 @@ The project uses **WebClient**, **Spring Boot**, **Swagger UI**, and includes **
 - Java 17
 - Spring Boot 3.x
 - Spring WebFlux (`WebClient`)
+- Redis (for caching)
 - Swagger/OpenAPI (`springdoc-openapi`)
 - JUnit 5 & Mockito for testing
 - MockWebServer for integration testing
+- Docker & Docker Compose
 
 ---
 
@@ -34,6 +38,7 @@ The project uses **WebClient**, **Spring Boot**, **Swagger UI**, and includes **
 
 - Java 17+
 - Maven 3.6+
+- Docker & Docker Compose
 - Internet access to fetch Nager.Date API
   
 ### Build & Run
@@ -43,6 +48,18 @@ mvn spring-boot:run
 
 Application will start at:
 http://localhost:8080
+
+### Run with Docker
+The project includes a docker-compose.yml file that sets up the Spring Boot app and a Redis cache server.
+
+  #### 1. Build and start containers
+    docker-compose up --build
+  #### 2. Access services
+    - Application: http://localhost:8080
+    - Swagger UI: http://localhost:8080/swagger-ui.html
+    - Redis (internal): redis://redis:6379
+  #### 3. Stop containers
+    docker-compose down
 
 ### API Endpoints
 All endpoints are available via Swagger UI:
