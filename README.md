@@ -40,7 +40,13 @@ The project uses **WebClient**, **Spring Boot**, **Swagger UI**, and includes **
 - Maven 3.6+
 - Docker & Docker Compose
 - Internet access to fetch Nager.Date API
-  
+
+### Clone the repository
+
+```bash
+git clone https://github.com/alexprinceraja/holiday-checker.git
+ ```
+ 
 ### Build & Run
   mvn clean install
 
@@ -144,9 +150,4 @@ All endpoints are available via Swagger UI:
     - Uses MockWebServer to simulate external API responses
 </details>
 
-### Clone the repository
-
-```bash
-git clone https://github.com/alexprinceraja/holiday-checker.git
-cd holiday-checker
 
