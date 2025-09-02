@@ -48,7 +48,7 @@ git clone https://github.com/alexprinceraja/holiday-checker.git
  ```
  
 ### Build & Run
-  mvn clean install
+    mvn clean install
 
 ### Run with Docker
 The project includes a docker-compose.yml file that sets up the Spring Boot app and a Redis cache server.
