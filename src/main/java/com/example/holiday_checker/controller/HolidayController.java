@@ -3,7 +3,7 @@ package com.example.holiday_checker.controller;
 import com.example.holiday_checker.model.Holiday;
 import com.example.holiday_checker.processor.HolidayProcessor;
 import com.example.holiday_checker.service.HolidayService;
-import com.example.holiday_checker.dto.NonWeekendHolidayResponse;
+import com.example.holiday_checker.model.NonWeekendHolidayResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +14,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/holidays")
-@Validated // IMPORTANT: enables validation for @RequestParam
+@Validated
 public class HolidayController {
 
     private final HolidayService service;

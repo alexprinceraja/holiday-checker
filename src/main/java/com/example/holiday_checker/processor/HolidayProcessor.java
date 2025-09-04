@@ -1,7 +1,7 @@
 package com.example.holiday_checker.processor;
 
+import com.example.holiday_checker.model.NonWeekendHolidayResponse;
 import com.example.holiday_checker.model.Holiday;
-import com.example.holiday_checker.dto.NonWeekendHolidayResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;

@@ -1,6 +1,10 @@
 package com.example.holiday_checker.service;
 
 import com.example.holiday_checker.model.Holiday;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,11 +21,15 @@ public class HolidayService {
         this.webClient = webClient;
     }
 
-    @Cacheable(value = "holidays", key = "#year + '-' + #country")
-    public List<Holiday> getHolidays(int year, String countryCode) {
+    @CircuitBreaker(name = "holidayChecker", fallbackMethod = "fallbackHolidays")
+    @Retry(name = "holidayChecker")
+    @RateLimiter(name = "holidayChecker")
+    @Bulkhead(name = "holidayChecker")
+    @Cacheable(value = "holidayCache", key = "#year + '-' + #country")
+    public List<Holiday> getHolidays(int year, String country) {
         try {
             return webClient.get()
-                    .uri("/PublicHolidays/{year}/{country}", year, countryCode)
+                    .uri("/PublicHolidays/{year}/{country}", year, country)
                     .retrieve()
                     .bodyToFlux(Holiday.class)
                     .collectList()
@@ -32,5 +40,10 @@ public class HolidayService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch holidays: " + e.getMessage(), e);
         }
+    }
+
+    // Fallback method must match signature + exception
+    public String fallbackHolidays(int year, String country, Throwable t) {
+        return "Fallback: unable to fetch holidays for " + country + " in " + year;
     }
 }

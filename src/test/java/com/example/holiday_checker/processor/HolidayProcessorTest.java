@@ -1,7 +1,7 @@
 package com.example.holiday_checker.processor;
 
 import com.example.holiday_checker.model.Holiday;
-import com.example.holiday_checker.dto.NonWeekendHolidayResponse;
+import com.example.holiday_checker.model.NonWeekendHolidayResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,10 +68,10 @@ class HolidayProcessorTest {
     }
 
     private Holiday createHoliday(String date, String name) {
-        Holiday h = new Holiday();
-        h.setDate(LocalDate.parse(date));
-        h.setName(name);
-        h.setLocalName(name);
-        return h;
+        Holiday holiday = new Holiday();
+        holiday.setDate(LocalDate.parse(date));
+        holiday.setName(name);
+        holiday.setLocalName(name);
+        return holiday;
     }
 }

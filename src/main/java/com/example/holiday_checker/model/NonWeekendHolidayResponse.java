@@ -1,6 +1,4 @@
-package com.example.holiday_checker.dto;
-
-import com.example.holiday_checker.model.Holiday;
+package com.example.holiday_checker.model;
 
 import java.util.List;
 
