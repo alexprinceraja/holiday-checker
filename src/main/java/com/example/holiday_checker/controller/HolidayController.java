@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/holidays")
@@ -41,8 +42,8 @@ public class HolidayController {
             @RequestParam List<String> countries) {
 
         Map<String, List<Holiday>> map = new HashMap<>();
-        for (String c : countries) {
-            map.put(c, service.getHolidays(year, c));
+        for (String country : countries) {
+            map.put(country, service.getHolidays(year, country));
         }
         return processor.getNonWeekendHolidays(map);
     }
@@ -54,8 +55,13 @@ public class HolidayController {
             @RequestParam String country1,
             @RequestParam String country2) {
 
-        List<Holiday> c1 = service.getHolidays(year, country1);
-        List<Holiday> c2 = service.getHolidays(year, country2);
-        return processor.getSharedHolidays(c1, c2);
+        CompletableFuture<List<Holiday>> country1Future =
+                CompletableFuture.supplyAsync(() -> service.getHolidays(year, country1));
+
+        CompletableFuture<List<Holiday>> country2Future =
+                CompletableFuture.supplyAsync(() -> service.getHolidays(year, country2));
+
+        return country1Future.thenCombine(country2Future, processor::getSharedHolidays)
+                .join();
     }
 }
