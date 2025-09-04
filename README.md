@@ -56,13 +56,18 @@ The project includes a docker-compose.yml file that sets up the Spring Boot app 
 
   #### 1. Build and start containers
     docker-compose up --build
-  #### 2. Access services
-    - Application: http://localhost:8080
-    - Swagger UI: http://localhost:8080/swagger-ui.html
-    - Redis (internal): redis://redis:6379
-    - Actuator Prometheus endpoint → http://localhost:8080/actuator/prometheus
-    - Prometheus → http://localhost:9090
-    - Grafana → http://localhost:3000 - login: admin/admin)
+  #### 2. Services
+
+   ###### Swagger UI: 
+       http://localhost:8080/swagger-ui.html
+   ###### Redis (internal): 
+       redis://redis:6379
+   ###### Actuator Prometheus endpoint → 
+       http://localhost:8080/actuator/prometheus
+   ###### Prometheus
+       http://localhost:9090
+   ###### Grafana
+       http://localhost:3000 - login: (admin/admin)
     
   #### 3. Stop containers
     docker-compose down
