@@ -2,7 +2,7 @@
 
 This is a Spring Boot application that retrieves public holiday information using the [Nager.Date API](https://date.nager.at/Api). The application supports retrieving the last 3 holidays, counting non-weekend holidays per country, and finding shared holidays between countries.
 
-The project uses **WebClient**, **Spring Boot**, **Swagger UI**, and includes **unit and integration tests**.
+The project uses 
 
 ---
 
